@@ -1,0 +1,72 @@
+{% extends "visit/base.html" %}
+{% block main %}
+<div id="main">
+    <div id="content">
+        <div class="panel">
+            <div class="header">
+                    <ul class="breadcrumb">
+                        <li class="active">注册</li>
+                    </ul>
+                </div>
+
+            <div class="inner">
+
+                    <form id="setting_form" class="form-horizontal" action="{{ url_for('.register') }}" method="post">
+
+                        <div class="control-group">
+                            <label class="control-label">用户名</label>
+                            <div class="controls">
+                                <input type="text" class="input-xlarge readonly" name="username">
+                                <span style="color:red;font-weight:bold">{{ n1 }}</span>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">密码</label>
+                            <div class="controls">
+                                <input type="text" class="input-xlarge" name="password">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <input type="submit" class="span-primary submit_btn" data-loading-text="注册中.." value="注册">
+                        </div>
+                    </form>
+                </div>
+        </div>
+
+        <div class="panel">
+            <div class="header">
+                    <ul class="breadcrumb">
+                        <li class="active">登录</li>
+                    </ul>
+                </div>
+
+            <div class="inner">
+
+                    <form class="form-horizontal" action="{{ url_for('.login') }}" method="post">
+
+                        <div class="control-group">
+                            <label class="control-label">用户名</label>
+                            <div class="controls">
+                                <input type="text" class="input-xlarge readonly" name="username">
+                                <span style="color:red;font-weight:bold">{{ n2 }}</span>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">密码</label>
+                            <div class="controls">
+                                <input type="text" class="input-xlarge" name="password">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <input type="submit" class="span-primary submit_btn" data-loading-text="登录中.." value="登录">
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

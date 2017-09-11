@@ -1,0 +1,105 @@
+{% extends "admin/base.html" %}
+{% block main %}
+<div id="main">
+    <div id="sidebar">
+        <div class="panel">
+            <div class="header">
+                <span class="col_fade">超级管理员</span >
+            </div>
+            <div class="inner">
+                <div class="user_card">
+                    <div>
+                        <a class="user_avatar" href="{{ url_for('admin.index', username=administrator.username) }}">
+                            <img src="{{ administrator.user_image }}" title="{{ administrator.username }}">
+                        </a>
+                        <span class="user_name"><a class="dark" href="{{ url_for('admin.index', username=administrator.username) }}">{{ administrator.username }}</a></span>
+                        <div class="board clearfix">
+                            <div class="floor">
+                            </div>
+                        </div>
+                        <span class="signature">
+                            {{ administrator.signature }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="inner">
+                <a href="/topic/" class="create_topic_btn">
+                    <span class="span-info">退出管理员页面</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div class="panel">
+            <div class="inner post">
+                <div class="topic_list">
+                    {% for u in us %}
+                    <div class="cell">
+                        <div class="topic_title_wrapper">
+                            <a class="user_avatar" href="{{ url_for('index.user_detail', username=u.username) }}">
+                                <img src="{{ u.user_image }}" title="{{ u.username }}">
+                            </a>
+
+                            <a class="topic_title" href="{{ url_for('index.user_detail', username=u.username) }}">
+                                {{ u.username }}
+                            </a>
+
+                            <a class='last_time pull-right'>
+                                <span class="last_active_time" id="{{ u.created_time }}"></span>
+                            </a>
+
+                            <a class="topic_delete pull-right" href="{{ url_for('admin.manage_setting', id=u.id) }}">
+                                <span class="topic-tab current-tab"> 修改用户名和密码</span>
+                            </a>
+                            <a class="topic_delete pull-right" href="{{ url_for('admin.manage_topic', id=u.id) }}">
+                                <span class="topic-tab current-tab"> 删除帖子</span>
+                            </a>
+                            {% if u.username != "admin" %}
+                            <a class="topic_delete pull-right" href="{{ url_for('admin.user_delete', id=u.id) }}">
+                                <span class="topic-tab current-tab"> 删除用户</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var log = function() {
+        console.log.apply(console, arguments)
+    }
+
+    var e = function(sel) {
+        return document.querySelector(sel)
+    }
+
+    var es = function(sel) {
+        return document.querySelectorAll(sel)
+    }
+
+    var creatTime = function() {
+        var ctimes = es('.last_active_time')
+        for(var i = 0; i < ctimes.length; i++) {
+            var now = Math.floor(new Date() / 1000)
+            var delta = Math.floor(((now - Number(ctimes[i].id))/ 3600))
+            var day = Math.floor(delta/24)
+            var s = day + '天前'
+            ctimes[i].innerText = s
+        }
+    }
+
+    var __main = function() {
+        console.log('running')
+        creatTime()
+    }
+
+    __main()
+
+    </script>
+{% endblock %}

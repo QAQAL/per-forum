@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+{% block main %}
+<div id="main">
+    <div id="sidebar">
+        <div class="panel">
+            <div class="header">
+                <span class="col_fade">超级管理员</span >
+            </div>
+            <div class="inner">
+                <div class="user_card">
+                    <div>
+                        <a class="user_avatar" href="{{ url_for('admin.index', username=administrator.username) }}">
+                            <img src="{{ administrator.user_image }}" title="{{ administrator.username }}">
+                        </a>
+                        <span class="user_name"><a class="dark" href="{{ url_for('admin.index', username=administrator.username) }}">{{ administrator.username }}</a></span>
+                        <div class="board clearfix"><div class="floor"></div></div>
+                        <span class="signature">
+                            {{ administrator.signature }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="inner">
+                <a href="/topic/" class="create_topic_btn">
+                    <span class="span-info">退出管理员页面</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div class="panel">
+    <div class="header">
+        <span class="col_fade">添加板块</span>
+    </div>
+    <div class="inner">
+        <form id="change_pass_form" class="form-horizontal" action="{{ url_for('admin.board_add') }}" method="post">
+            <div class="control-group">
+                <label class="control-label" >新板块</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="title" >
+                </div>
+            </div>
+            <div class="form-actions">
+                <input type="submit" class="span-primary submit_btn" data-loading-text="添加中.." value="添加">
+            </div>
+        </form>
+    </div>
+</div>
+
+        <div class="panel">
+        <div class="header">
+            <span class="col_fade">现有板块</span>
+        </div>
+            <div class="inner post">
+                <div class="topic_list">
+                    {% for b in bs %}
+                    <div class="cell">
+                        <div class="topic_title_wrapper">
+
+                            <a class="topic_title">
+                                {{ b.title }}
+                            </a>
+
+                            <a class='last_time pull-right' href="/">
+                                <span class="last_active_time" id="{{ b.created_time }}"></span>
+                            </a>
+
+                            <a class="topic_delete pull-right" href="{{ url_for('admin.board_delete', id=b.id) }}">
+                                <span class="topic-tab current-tab"> 删除板块</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

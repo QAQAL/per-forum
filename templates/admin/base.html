@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- style -->
+        <link rel="stylesheet" href="/static/css/index.min.9d1ebdbb.min.css">
+        <link rel="stylesheet" href="/static/css/style.css" media="all">
+        <link href="https://cdn.bootcss.com/pure/1.0.0/pure-min.css" rel="stylesheet">
+        <!-- scripts -->
+        <script async="" src="/static/js/analytics.js"></script>
+        <script async="" src="/static/js/index.min.aeb155e1.min.js"></script>
+        <script src="https://cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
+
+        <title>AL社区</title>
+    </head>
+    <body>
+        <div class='navbar'>
+            <div class='navbar-inner'>
+                <div class='container'>
+                    <a class='brand' href='/topic/back_index'>
+                        <img src="/static/image/123.png">
+                    </a>
+
+                    <form id='search_form' class='navbar-search' action="/search">
+                        <input type='text' id='q' name='q' class='search-query span3' value=''/>
+                    </form>
+                    <ul class='nav pull-right'>
+                        <li>
+                            <a href='/topic/back_index'>
+                            首页
+                            </a>
+                        </li>
+                        <li><a href='/admin/manage_user'>用户管理</a></li>
+                        <li><a href='/admin/manage_board'>板块管理</a></li>
+                        <li>
+                            <a href='/'>退出</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% block main %}{% endblock %}
+        <div id="backtotop" style="display: none; top: 358px; right: 0px;">回到顶部</div>
+        <div id="sidebar-mask"></div>
+        <div id='footer'>
+            <div id='footer_main'>
+                <div class="links">
+                    <img src="/static/image/githubIcon1.jpg">
+                        |
+                    <a class='dark' href='https://github.com/cnodejs/nodeclub/'>源码地址</a>
+                </div>
+                <div class='col_fade'>
+                    <p>
+                        <span style="color:#66A800;font-weight:bold">动次打次社区</span>
+                        个人搬砖社区，专注搬砖节奏研究。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

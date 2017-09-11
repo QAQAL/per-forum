@@ -1,0 +1,80 @@
+{% extends "visit/base.html" %}
+{% block main %}
+<div id="main">
+    <div id="sidebar">
+        <div class="panel">
+            <div class="inner">
+                <a href="/user_login" class="create_topic_btn">
+                    <span class="span-info">注册登录</span>
+                </a>
+            </div>
+        </div>
+
+       <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>友情站点</span>
+            </div>
+            <div class='inner'>
+                <ol class="friendship-community">
+                    <li>
+                        <a href="https://www.google.com/" target="_blank">
+                            <img src="/static/image/google.jpg">
+                        </a>
+                    </li>
+                    <div class="sep10"></div>
+                    <li>
+                        <a href="https://github.com/" target="_blank">
+                            <img src="/static/image/github1.jpg">
+                        </a>
+                    </li>
+                    <div class="sep10"></div>
+                    <li>
+                        <a href="https://www.zhihu.com/" target="_blank">
+                            <img src="/static/image/zhihu.png">
+                        </a>
+                    </li>
+                    <div class="sep10"></div>
+                    <li>
+                        <a href="https://stackoverflow.com/" target="_blank">
+                            <img src="/static/image/stackoverflow1.jpg">
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="panel">
+            <div class="header">
+                <a href="/" class="topic-tab current-tab">
+                    全部的帖子
+                </a>
+
+                {% for b in bs %}
+                <a href="/?board_id={{ b.id }}" class="topic-tab current-tab">
+                    {{ b.title }}
+                </a>
+                {% endfor %}
+            </div>
+            <div class="inner post">
+                <div class="topic_list">
+                    {% for t in ms %}
+                    <div class="cell">
+                        <div class="topic_title_wrapper">
+                            <a class="user_avatar" href="{{ url_for('index.author_detail', id=t.user().id) }}">
+                                <img src="{{ t.user().user_image }}" title="{{ t.user().username }}">
+                            </a>
+                            <span>{{ t.replies() | count }} / {{ t.views }}</span>
+                            <a class="topic_title" href="{{ url_for('index.detail', id=t.id) }}">
+                                {{ t.title }}
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

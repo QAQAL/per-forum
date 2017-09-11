@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% block main %}
+<div id="main">
+
+    <div id="sidebar">
+        <div class="panel">
+            <div class="header">
+                <span class="col_fade">个人信息</span>
+            </div>
+            <div class="inner">
+                <div class="user_card">
+                    <div>
+                        <a class="user_avatar" href="/user/{{ user.username }}">
+                            <img src="{{ user.user_image }}" title="{{ user.username }}">
+                        </a>
+                        <span class="user_name">
+                            <a class="dark" href="/user/{{ user.username }}">{{ user.username }}</a>
+                        </span>
+                        <div class="board clearfix"><div class="floor"></div></div>
+                        <span class="signature">
+                            {{ user.signature }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="inner">
+                <a href="/topic/new?board_id={{ bid }}" class="create_topic_btn">
+                    <span class="span-success">发布话题</span>
+                </a>
+            </div>
+        </div>
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fead'>友情站点</span>
+            </div>
+            <div class='inner'>
+                <ol class="friendship-community">
+                    <li>
+                        <a href="https://www.google.com/" target="_blank">
+                            <img src="/static/image/google.jpg">
+                        </a>
+                    </li>
+                    <div class="sep10"></div>
+                    <li>
+                        <a href="https://github.com/" target="_blank">
+                            <img src="/static/image/github1.jpg">
+                        </a>
+                    </li>
+                    <div class="sep10"></div>
+                    <li>
+                        <a href="https://www.zhihu.com/" target="_blank">
+                            <img src="/static/image/zhihu.png">
+                        </a>
+                    </li>
+                    <div class="sep10"></div>
+                    <li>
+                        <a href="https://stackoverflow.com/" target="_blank">
+                            <img src="/static/image/stackoverflow1.jpg">
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class='panel'>
+            <div class='header topic_header'>
+        <span class="topic_full_title">
+			{{ topic.title }}
+      	</span>
+                <div class="changes">
+                    <span>
+                        发布于
+                        <span class="col" id="{{ topic.created_time }}"></span>
+                        天前
+                    </span>
+                    <span>
+                        作者
+                        <a href="/user/{{ url_for('index.user_detail',username=topic.user().username) }}">
+                            {{ topic.user().username }}
+                        </a>
+        	        </span>
+                    <span>
+          	            {{ topic.views }} 次浏览
+        	        </span>
+                </div>
+            </div>
+
+            <div class='inner topic'>
+                <div class='topic_content'>
+                    <div class="markdown-text">{{ topic.content }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class='header'>
+                <span class='col_fade'>
+                    <!-- 过滤器 -->
+                    {{ topic.replies() | count }} 回复
+                </span>
+            </div>
+            {% for r in topic.replies() %}
+                <div class='cell reply_area reply_item'>
+                    <div class='author_content'>
+                        <a href="{{ url_for('index.user_detail', username=r.user().username) }}" class="user_avatar">
+                            <img src="{{ r.user().user_image }}" title="{{ r.user().username }}">
+                        </a>
+                        <div class='user_info'>
+                            <a class='dark reply_author'>
+                                {{ r.user().username }}
+                            </a>
+                            <a class="reply_time">
+                                {{ loop.index }}楼 •
+                                <span class="last_active_time" id="{{ r.created_time }}"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class='reply_content from-leiwei1991'>
+                        <div class="markdown-text">{{ r.content }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>添加回复</span>
+            </div>
+            <div class='inner reply'>
+                <form id='reply_form' action="{{ url_for('reply.add') }}" method='post'>
+                    <div class='markdown_editor in_editor'>
+                        <div class='markdown_in_editor'>
+                            <input type="hidden" name="topic_id" value="{{ topic.id }}">
+                            <textarea class='editor' name='content' rows='8'></textarea>
+                            <div class='editor_buttons'>
+                                <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.." value="回复" >
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var log = function() {
+        console.log.apply(console, arguments)
+    }
+
+    var e = function(sel) {
+        return document.querySelector(sel)
+    }
+
+    var es = function(sel) {
+        return document.querySelectorAll(sel)
+    }
+
+    var registerTime = function() {
+        var ctime = e('.col')
+        var now = Math.floor(new Date() / 1000)
+        var delta = Math.floor(((now - Number(ctime.id))/ 3600))
+        var day = Math.floor(delta/24)
+        var s = day
+        ctime.innerText = s
+    }
+
+    var creatTime = function() {
+        var ctimes = es('.last_active_time')
+        for(var i = 0; i < ctimes.length; i++) {
+            var now = Math.floor(new Date() / 1000)
+            var delta = Math.floor(((now - Number(ctimes[i].id))/ 3600))
+            var s = delta + '小时前'
+            ctimes[i].innerText = s
+        }
+    }
+
+    var markContents = function() {
+            var contentDivs = es('.markdown-text')
+            for(var i = 0; i < contentDivs.length; i++) {
+                var contentDiv = contentDivs[i]
+                var content = marked(contentDiv.innerHTML)
+                // console.log(content, contentDiv.innerHTML)
+                contentDiv.innerHTML = content
+            }
+        }
+
+    var __main = function() {
+        console.log('running')
+        registerTime()
+        creatTime()
+        markContents()
+    }
+
+    __main()
+</script>
+{% endblock %}

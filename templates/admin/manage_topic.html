@@ -1,0 +1,99 @@
+{% extends "admin/base.html" %}
+{% block main %}
+<div id="main">
+    <div id="sidebar">
+        <div class="panel">
+            <div class="header">
+                <span class="col_fade">超级管理员</span >
+            </div>
+            <div class="inner">
+                <div class="user_card">
+                    <div>
+                        <a class="user_avatar" href="{{ url_for('admin.index', username=administrator.username) }}">
+                            <img src="{{ administrator.user_image }}" title="{{ administrator.username }}">
+                        </a>
+                        <span class="user_name"><a class="dark" href="{{ url_for('admin.index', username=administrator.username) }}">{{ administrator.username }}</a></span>
+                        <div class="board clearfix">
+                            <div class="floor">
+                            </div>
+                        </div>
+                        <span class="signature">
+                            {{ administrator.signature }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="inner">
+                <a href="/topic/" class="create_topic_btn">
+                    <span class="span-info">退出管理员页面</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div class="panel">
+            <div class="header">
+                <a class="topic-tab current-tab">
+                    {{ user.username }} 的全部帖子
+                </a>
+            </div>
+            <div class="inner post">
+                <div class="topic_list">
+                    {% for t in ts %}
+                    <div class="cell">
+                        <div class="topic_title_wrapper">
+                            <a class="user_avatar" href="{{ url_for('index.user_detail', username=user.username) }}">
+                                <img src="{{user.user_image }}" title="{{user.username }}">
+                            </a>
+                            <a class="topic_title" href="{{ url_for('topic.detail', id=t.id) }}">
+                                {{ t.title }}
+                            </a>
+                            <a class='last_time pull-right'>
+                                <span class="last_active_time" id="{{ t.created_time }}"></span>
+                            </a>
+                            <a class="topic_delete pull-right" href="{{ url_for('admin.topic_delete', id=t.id) }}">
+                                <span class="topic-tab current-tab"> 删 除</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var log = function() {
+        console.log.apply(console, arguments)
+    }
+
+    var e = function(sel) {
+        return document.querySelector(sel)
+    }
+
+    var es = function(sel) {
+        return document.querySelectorAll(sel)
+    }
+
+    var creatTime = function() {
+        var ctimes = es('.last_active_time')
+        for(var i = 0; i < ctimes.length; i++) {
+            var now = Math.floor(new Date() / 1000)
+            var delta = Math.floor(((now - Number(ctimes[i].id))/ 3600))
+            var day = Math.floor(delta/24)
+            var s = day + '天前'
+            ctimes[i].innerText = s
+        }
+    }
+
+    var __main = function() {
+        console.log('running')
+        creatTime()
+    }
+
+    __main()
+
+    </script>
+{% endblock %}

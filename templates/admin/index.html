@@ -1,0 +1,163 @@
+{% extends "admin/base.html" %}
+{% block main %}
+    <div id="main">
+        <div id="sidebar">
+            <div class="panel">
+                <div class="header">
+                    <span class="col_fade">超级管理员</span >
+                </div>
+                <div class="inner">
+                    <div class="user_card">
+                        <div>
+                            <a class="user_avatar" href="{{ url_for('admin.index', username=user.username) }}">
+                                <img src="{{ user.user_image }}" title="{{ user.username }}">
+                            </a>
+                            <span class="user_name"><a class="dark" href="{{ url_for('admin.index', username=user.username) }}">{{ user.username }}</a></span>
+                            <div class="board clearfix">
+                                <div class="floor">
+                                </div>
+                            </div>
+                            <span class="signature">
+                                {{ user.signature }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="inner">
+                    <a href="/topic/" class="create_topic_btn">
+                        <span class="span-info">退出管理员页面</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="content">
+            <div class="panel">
+                <div class="header">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="">管理员的主页</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="inner userinfo">
+                    <div class="user_big_avatar">
+                        <img src="{{ user.user_image }}" title="{{ user.username }}">
+                    </div>
+                    <a class="dark">{{ user.username }}</a>
+                    <p class="col_fad" id="{{ user.created_time }}"></p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="header">
+                    <span class="col_fade">最近创建的话题</span>
+                </div>
+                {% for t in topic %}
+                    <div class="cell">
+                        <a class="user_avatar pull-left" href="/user/{{ user.username }}">
+                            <img src="{{ user.user_image }}" title="{{ user.username }}">
+                        </a>
+
+                        <span class="reply_count pull-left">
+                            <span class="count_of_replies" title="回复数">
+                                {{ t.replies() | count }}
+                            </span>
+                            <span class="count_seperator">/</span>
+                            <span class="count_of_visits" title="点击数">
+                                {{ t.views }}
+                            </span>
+                        </span>
+
+                        <a class="last_time pull-right" href="/topic/5986768080819e1619954284#5986e8cedf27f24718ea94d1">
+                            <img class="user_small_avatar" src="{{ user.user_image }}">
+                            <span class="last_active_time" id="{{ t.created_time }}"> </span>
+                        </a>
+
+                        <div class="topic_title_wrapper">
+                            <a class="topic_title" href="/topic/{{ t.id }}" title="{{ t.title }}">
+                                {{ t.title }}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="panel">
+                <div class="header">
+                    <span class="col_fade">最近参与的话题</span>
+                </div>
+                {% for t in rt %}
+                    <div class="cell">
+                        <a class="user_avatar pull-left" href="/user/{{ t.user().username }}">
+                            <img src="{{ t.user().user_image }}" title="{{ t.user().username }}">
+                        </a>
+                        <span class="reply_count pull-left">
+                            <span class="count_of_replies" title="回复数">
+                                {{ t.replies() | count }}
+                            </span>
+                            <span class="count_seperator">/</span>
+                            <span class="count_of_visits" title="点击数">
+                                {{ t.views }}
+                            </span>
+                        </span>
+
+                        <a class="last_time pull-right" href="/topic/{{ t.id }}">
+                            <img class="user_small_avatar" src="{{ user.user_image }}">
+                            <span class="last_active_time" id="{{ t.created_time }}"> </span>
+                        </a>
+                        <div class="topic_title_wrapper">
+                            <a class="topic_title" href="/topic/{{ t.id }}" title="{{ t.title }}">
+                                {{ t.title }}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script>
+    var log = function() {
+        console.log.apply(console, arguments)
+    }
+
+    var e = function(sel) {
+        return document.querySelector(sel)
+    }
+
+    var es = function(sel) {
+        return document.querySelectorAll(sel)
+    }
+
+    var registerTime = function() {
+        var ctime = e('.col_fad')
+        var now = Math.floor(new Date() / 1000)
+        var delta = Math.floor(((now - Number(ctime.id))/ 3600))
+        var day = Math.floor(delta/24)
+        var s = '注册时间 ' + day + '天前'
+        ctime.innerText = s
+    }
+
+    var creatTime = function() {
+        var ctimes = es('.last_active_time')
+        for(var i = 0; i < ctimes.length; i++) {
+            var now = Math.floor(new Date() / 1000)
+            var delta = Math.floor(((now - Number(ctimes[i].id))/ 3600))
+            var s = delta + '小时前'
+            ctimes[i].innerText = s
+        }
+    }
+
+    var __main = function() {
+        console.log('running')
+        registerTime()
+        creatTime()
+    }
+
+    __main()
+
+    </script>
+{% endblock %}

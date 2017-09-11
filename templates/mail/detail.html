@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block main %}
+
+<div id="main">
+    <div id="content">
+
+    <div class='panel'>
+            <div class='header'>
+                <ul class="breadcrumb">
+                    <li><a href="/mail/">返回</a>
+                        <span class="divider">/</span>
+                    </li>
+                    <span class='col_fade'>邮件标题</span>
+                </ul>
+            </div>
+            <div class='cell'>
+                <div class='receive_mails'>
+                    <div class='dark reply_author'>
+                        {{ mail.title }}
+                    </div>
+                </div>
+            </div>
+            <div class='header'>
+                <span class='col_fade'>
+                    时间
+                </span>
+            </div>
+            <div class='cell'>
+                <div class='receive_mails'>
+                    <span class="last_active_time" id="{{ mail.created_time }}"></span>
+                </div>
+            </div>
+
+            <div class='header'>
+                <span class='col_fade'>
+                    发件人
+                </span>
+            </div>
+            <div class='cell'>
+                <div class='receive_mails'>
+                    <div class='dark reply_author'>
+                        {{ sender }}
+                    </div>
+                </div>
+            </div>
+            <div class='header'>
+                <span class='col_fade'>
+                    接收人
+                </span>
+            </div>
+            <div class='cell'>
+                <div class='receive_mails'>
+                    <div class='dark reply_author'>
+                        {{ receiver }}
+                    </div>
+                </div>
+            </div>
+            <div class='header'>
+                <span class='col_fade'>
+                    内容
+                </span>
+            </div>
+            <div class='cell'>
+                <div class='receive_mails'>
+                    <div class='dark reply_author'>
+                        {{ mail.content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    var log = function() {
+        console.log.apply(console, arguments)
+    }
+
+    var e = function(sel) {
+        return document.querySelector(sel)
+    }
+
+    var es = function(sel) {
+        return document.querySelectorAll(sel)
+    }
+
+    var getLocalTime = function (nS) {
+        var date = new Date(nS);
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        var D = date.getDate() + ' ';
+        var h = date.getHours() + ':';
+        var m = date.getMinutes() + ':';
+        var s = date.getSeconds();
+        var time = Y+M+D+h+m+s
+        return time
+    }
+
+    var creatTime = function() {
+        var ctime = e('.last_active_time').id
+        var ctime = ctime*1000
+        var ctime = getLocalTime(ctime)
+        e('.last_active_time').innerText = ctime
+    }
+
+    var __main = function() {
+        console.log('running')
+        creatTime()
+    }
+
+    __main()
+
+    </script>
+{% endblock %}
+
+
+
+
