@@ -174,20 +174,25 @@
         for(var i = 0; i < ctimes.length; i++) {
             var now = Math.floor(new Date() / 1000)
             var delta = Math.floor(((now - Number(ctimes[i].id))/ 3600))
-            var s = delta + '小时前'
-            ctimes[i].innerText = s
+            var h = delta + '小时前'
+            var d = Math.floor(delta/24)
+            if (d == 0) {
+                ctimes[i].innerText = s
+            } else {
+                ctimes[i].innerText = h+'天'+s
+            }
         }
     }
 
     var markContents = function() {
-            var contentDivs = es('.markdown-text')
-            for(var i = 0; i < contentDivs.length; i++) {
-                var contentDiv = contentDivs[i]
-                var content = marked(contentDiv.innerHTML)
-                // console.log(content, contentDiv.innerHTML)
-                contentDiv.innerHTML = content
-            }
+        var contentDivs = es('.markdown-text')
+        for(var i = 0; i < contentDivs.length; i++) {
+            var contentDiv = contentDivs[i]
+            var content = marked(contentDiv.innerHTML)
+            // console.log(content, contentDiv.innerHTML)
+            contentDiv.innerHTML = content
         }
+    }
 
     var __main = function() {
         console.log('running')
