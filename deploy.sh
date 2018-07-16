@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # 代码更新
 git pull
 
