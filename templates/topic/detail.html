@@ -173,13 +173,14 @@
         var ctimes = es('.last_active_time')
         for(var i = 0; i < ctimes.length; i++) {
             var now = Math.floor(new Date() / 1000)
-            var delta = Math.floor(((now - Number(ctimes[i].id))/ 3600))
+            var delta = Math.floor(((now - Number(ctimes[i].id)) / 3600))
             var h = delta + '小时前'
             var d = Math.floor(delta/24)
+            var dh = delta%24 + '小时前'
             if (d == 0) {
-                ctimes[i].innerText = s
+                ctimes[i].innerText = h
             } else {
-                ctimes[i].innerText = h+'天'+s
+                ctimes[i].innerText = d + '天'+dh
             }
         }
     }

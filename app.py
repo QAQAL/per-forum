@@ -34,3 +34,4 @@ if __name__ == '__main__':
     )
     app = configured_app()
     app.run(**config)
+
